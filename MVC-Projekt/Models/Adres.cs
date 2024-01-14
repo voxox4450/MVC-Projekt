@@ -12,8 +12,5 @@
 
         public string Kraj { get; set; }
 
-        public int? KontaktId { get; set; }
-
-        public Kontakt Kontakt { get; set; }
     }
 }
