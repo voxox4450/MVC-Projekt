@@ -1,6 +1,5 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
-using MVC_Projekt.Areas.Identity.Data;
 using MVC_Projekt.Data;
 using MVC_Projekt.Models;
 
