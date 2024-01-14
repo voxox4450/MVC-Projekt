@@ -1,5 +1,5 @@
 ﻿@page
-@model List<MVC_Projekt.Models.Kontakt> 
+@model List<MVC_Projekt.Models.Kontakt>
 
 <h2>Kontakty</h2>
 
@@ -25,9 +25,6 @@
                 <td>@item.AdresEmail</td>
                 <td>@(item.Grupa != null ? item.Grupa.Nazwa : "")</td>
                 <td>@(item.Adres != null ? $"{item.Adres.Ulica}, {item.Adres.Miasto}, {item.Adres.Kraj}" : "")</td>
-                <td>
-                    <a asp-action="Usun" asp-route-id="@item.Id">Usun</a>
-                </td>
             </tr>
         }
     </tbody>

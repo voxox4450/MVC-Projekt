@@ -9,7 +9,7 @@ using System.Linq;
 using System.Threading.Tasks;
 
 namespace MVC_Projekt.Controllers
-{
+{   
     [Authorize(Roles = "Admin")]
     public class KontaktyController : Controller
     {
@@ -26,11 +26,6 @@ namespace MVC_Projekt.Controllers
             return View(kontakty);
         }
 
-        public async Task<IActionResult> ListaKontakt()
-        {
-            var kontakty = await _context.Kontakty.Include(k => k.Grupa).Include(k => k.Adres).ToListAsync();
-            return View(kontakty);
-        }
 
         public IActionResult DodajAdres()
         {

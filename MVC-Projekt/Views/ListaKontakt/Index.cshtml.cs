@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace MVC_Projekt.Views.Kontakty
+namespace MVC_Projekt.Views.ListaKontakt
 {
-    public class ListaKontaktModel : PageModel
+    public class IndexModel : PageModel
     {
         public void OnGet()
         {
