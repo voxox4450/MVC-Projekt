@@ -20,24 +20,8 @@ namespace MVC_Projekt.Controllers
 
         public async Task<IActionResult> Index()
         {
-            return View(await _context.Kontakty.ToListAsync());
-        }
-
-        public async Task<IActionResult> Details(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var kontakt = await _context.Kontakty
-                .FirstOrDefaultAsync(m => m.Id == id);
-            if (kontakt == null)
-            {
-                return NotFound();
-            }
-
-            return View(kontakt);
+            var kontakty = await _context.Kontakty.Include(k => k.Grupa).Include(k => k.Adres).ToListAsync();
+            return View(kontakty);
         }
 
         public IActionResult Create()
@@ -47,7 +31,7 @@ namespace MVC_Projekt.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje")] Kontakt kontakt)
+        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId")] Kontakt kontakt)
         {
             if (ModelState.IsValid)
             {
@@ -75,7 +59,7 @@ namespace MVC_Projekt.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje")] Kontakt kontakt)
+        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId")] Kontakt kontakt)
         {
             if (id != kontakt.Id)
             {
@@ -139,6 +123,20 @@ namespace MVC_Projekt.Controllers
         private bool KontaktExists(int id)
         {
             return _context.Kontakty.Any(e => e.Id == id);
+        }
+
+        // Dodaj nową akcję dla grup
+        public async Task<IActionResult> Grupy()
+        {
+            var grupy = await _context.Grupy.ToListAsync();
+            return View(grupy);
+        }
+
+        // Dodaj nową akcję dla adresów
+        public async Task<IActionResult> Adresy()
+        {
+            var adresy = await _context.Adresy.ToListAsync();
+            return View(adresy);
         }
     }
 }
