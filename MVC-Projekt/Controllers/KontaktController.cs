@@ -4,7 +4,6 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC_Projekt.Data;
 using MVC_Projekt.Models;
-using MVC_Projekt.Views.Kontakty;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -27,7 +26,6 @@ namespace MVC_Projekt.Controllers
             return View(kontakty);
         }
 
-        
         public IActionResult Dodano()
         {
             return View();
@@ -78,12 +76,13 @@ namespace MVC_Projekt.Controllers
 
         public IActionResult DodajKontakt()
         {
-            // Pobierz zapamiętane ID adresu i grupy z TempData
-            ViewBag.AdresId = (int)TempData["AdresId"];
-            ViewBag.GrupaId = (int)TempData["GrupaId"];
+            // Pobierz dostępne adresy i grupy z bazy danych
+            var adresy = _context.Adresy.ToList();
+            var grupy = _context.Grupy.ToList();
 
-            // Zainicjuj listę dostępnych grup w widoku
-            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa");
+            // Inicjuj ViewBag
+            ViewBag.Adresy = new SelectList(adresy, "Id", "Ulica");
+            ViewBag.Grupy = new SelectList(grupy, "Id", "Nazwa");
 
             return View();
         }
@@ -94,18 +93,19 @@ namespace MVC_Projekt.Controllers
         {
             if (ModelState.IsValid)
             {
-                kontakt.GrupaId = ViewBag.GrupaId;
-                kontakt.AdresId = ViewBag.AdresId;
-
                 _context.Add(kontakt);
                 await _context.SaveChangesAsync();
 
-                // Przekieruj do widoku potwierdzenia
                 return RedirectToAction(nameof(Dodano));
             }
 
-            // Zainicjuj listę dostępnych grup w widoku
-            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
+            // Jeśli ModelState.IsValid == false, ponownie pobierz dostępne adresy i grupy
+            var adresy = _context.Adresy.ToList();
+            var grupy = _context.Grupy.ToList();
+
+            // Zainicjuj ViewBag
+            ViewBag.Adresy = new SelectList(adresy, "Id", "Ulica", kontakt.AdresId);
+            ViewBag.Grupy = new SelectList(grupy, "Id", "Nazwa", kontakt.GrupaId);
 
             return View(kontakt);
         }

@@ -31,8 +31,13 @@
     </div>
 
     <div class="form-group">
-        <input type="hidden" asp-for="GrupaId" value="@ViewBag.GrupaId" />
-        <input type="hidden" asp-for="AdresId" value="@ViewBag.AdresId" />
+        <label asp-for="AdresId">Adres:</label>
+        <select asp-for="AdresId" class="form-control" asp-items="ViewBag.Adresy"></select>
+    </div>
+
+    <div class="form-group">
+        <label asp-for="GrupaId">Grupa:</label>
+        <select asp-for="GrupaId" class="form-control" asp-items="ViewBag.Grupy"></select>
     </div>
 
     <div class="form-group">
