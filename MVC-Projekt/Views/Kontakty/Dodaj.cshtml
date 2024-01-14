@@ -33,6 +33,12 @@
     <div class="form-group">
         <label asp-for="GrupaId">Grupa</label>
         <select asp-for="GrupaId" asp-items="@(new SelectList(ViewBag.Grupy, "Id", "Nazwa"))" class="form-control"></select>
+        <span asp-validation-for="GrupaId" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <label>Nazwa Własnej Grupy</label>
+        <input type="text" asp-for="Grupa.Nazwa" class="form-control" />
     </div>
 
     <div class="form-group">

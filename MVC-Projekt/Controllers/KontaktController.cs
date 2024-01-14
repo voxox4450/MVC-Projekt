@@ -34,39 +34,44 @@ namespace MVC_Projekt.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Dodaj([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId,Adres.Ulica,Adres.Miasto,Adres.KodPocztowy,Adres.Kraj")] Kontakt kontakt)
+        public async Task<IActionResult> Dodaj([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId,Adres.Ulica,Adres.Miasto,Adres.KodPocztowy,Adres.Kraj,Grupa.Nazwa")] Kontakt kontakt)
         {
             if (ModelState.IsValid)
             {
-                // Sprawdzanie czy adres jest pusty, jeśli tak, dodaj nowy obiekt Adres
+                // Sprawdzenie czy wprowadzono własną nazwę grupy
+                if (!string.IsNullOrEmpty(kontakt.Grupa?.Nazwa))
+                {
+                    // Sprawdzanie czy taka grupa już istnieje
+                    var existingGroup = await _context.Grupy.FirstOrDefaultAsync(g => g.Nazwa == kontakt.Grupa.Nazwa);
+                    if (existingGroup == null)
+                    {
+                        // Dodawanie nowej grupy
+                        kontakt.GrupaId = 0; // Ustawienie na zero, aby EF Core zrozumiał, że to jest nowa grupa
+                        _context.Grupy.Add(kontakt.Grupa);
+                        await _context.SaveChangesAsync();
+                    }
+                    else
+                    {
+                        // Ustawienie istniejącej grupy
+                        kontakt.GrupaId = existingGroup.Id;
+                    }
+                }
+
+                // Sprawdzanie czy adres jest pusty, jeśli tak, ustaw adres na null
                 if (string.IsNullOrEmpty(kontakt.Adres?.Ulica) && string.IsNullOrEmpty(kontakt.Adres?.Miasto) && string.IsNullOrEmpty(kontakt.Adres?.KodPocztowy) && string.IsNullOrEmpty(kontakt.Adres?.Kraj))
                 {
-                    kontakt.Adres = null; // Jeśli wszystkie pola adresu są puste, ustaw adres na null
+                    kontakt.Adres = null;
                 }
 
                 _context.Add(kontakt);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+
             ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
             return View(kontakt);
         }
 
-        public async Task<IActionResult> Zmien(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var kontakt = await _context.Kontakty.FindAsync(id);
-            if (kontakt == null)
-            {
-                return NotFound();
-            }
-            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
-            return View(kontakt);
-        }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
