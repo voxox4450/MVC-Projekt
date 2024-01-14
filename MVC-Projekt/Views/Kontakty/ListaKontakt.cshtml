@@ -1,0 +1,36 @@
+﻿@model IEnumerable<MVC_Projekt.Models.Kontakt>
+
+@{
+    ViewData["Title"] = "Kontakty";
+}
+
+<h2>Kontakty</h2>
+
+
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Numer Telefonu</th>
+            <th>Adres Email</th>
+            <th>Grupa</th>
+            <th>Adres</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Imie</td>
+                <td>@item.Nazwisko</td>
+                <td>@item.NumerTelefonu</td>
+                <td>@item.AdresEmail</td>
+                <td>@(item.Grupa != null ? item.Grupa.Nazwa : "")</td>
+                <td>@(item.Adres != null ? $"{item.Adres.Ulica}, {item.Adres.Miasto}, {item.Adres.Kraj}" : "")</td>
+            </tr>
+        }
+    </tbody>
+</table>
