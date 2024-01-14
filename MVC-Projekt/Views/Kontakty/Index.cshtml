@@ -3,7 +3,7 @@
     <h2>Kontakty</h2>
 
     <p>
-        <a asp-action="Create">Dodaj nowy</a>
+        <a asp-action="Dodaj">Dodaj nowy</a>
     </p>
 
     <table class="table">
@@ -29,9 +29,9 @@
                     <td>@(item.Grupa != null ? item.Grupa.Nazwa : "")</td>
                     <td>@(item.Adres != null ? $"{item.Adres.Ulica}, {item.Adres.Miasto}" : "")</td>
                     <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
-                        <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                        <a asp-action="Details" asp-route-id="@item.Id">Lista</a> |
+                        <a asp-action="Edit" asp-route-id="@item.Id">Zmien</a> |
+                        <a asp-action="Delete" asp-route-id="@item.Id">Usun</a>
                     </td>
                 </tr>
             }
