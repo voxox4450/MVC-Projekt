@@ -41,8 +41,6 @@
                 <td>@(item.Grupa != null ? item.Grupa.Nazwa : "")</td>
                 <td>@(item.Adres != null ? $"{item.Adres.Ulica}, {item.Adres.Miasto}, {item.Adres.Kraj}" : "")</td>
                 <td>
-                    <a asp-action="Details" asp-route-id="@item.Id">Lista</a> |
-                    <a asp-action="Zmien" asp-route-id="@item.Id">Zmien</a> |
                     <a asp-action="Usun" asp-route-id="@item.Id">Usun</a>
                 </td>
             </tr>
