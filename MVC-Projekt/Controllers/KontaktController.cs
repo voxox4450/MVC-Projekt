@@ -38,18 +38,12 @@ namespace MVC_Projekt.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DodajAdres([Bind("Id,Ulica,Miasto,KodPocztowy,Kraj,KontaktId")] Adres adres)
+        public async Task<IActionResult> DodajAdres([Bind("Id,Ulica,Miasto,KodPocztowy,Kraj")] Adres adres)
         {
             if (ModelState.IsValid)
             {
                 _context.Adresy.Add(adres);
-                await _context.SaveChangesAsync();
-
-                // Zapamiętaj ID dodanego adresu w TempData
-                TempData["AdresId"] = adres.Id;
-
-                // Przekieruj do widoku dodawania grupy
-                return RedirectToAction(nameof(Index));
+                await _context.SaveChangesAsync();    
             }
 
             return View(adres);
@@ -63,12 +57,6 @@ namespace MVC_Projekt.Controllers
             {
                 _context.Grupy.Add(grupa);
                 await _context.SaveChangesAsync();
-
-                // Zapamiętaj ID dodanej grupy w TempData
-                TempData["GrupaId"] = grupa.Id;
-
-                // Przekieruj do widoku dodawania kontaktu
-                return RedirectToAction(nameof(DodajKontakt));
             }
 
             return View(grupa);
