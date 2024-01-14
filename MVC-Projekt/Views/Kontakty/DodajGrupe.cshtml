@@ -1,0 +1,15 @@
+﻿@model MVC_Projekt.Models.Grupa
+
+<h2>Dodaj Grupę</h2>
+
+<form asp-action="DodajGrupe" method="post">
+    <div class="form-group">
+        <label asp-for="Nazwa"></label>
+        <input asp-for="Nazwa" class="form-control" />
+        <span asp-validation-for="Nazwa" class="text-danger"></span>
+    </div>
+
+    <div class="form-group">
+        <input type="submit" value="Dodaj Grupę" class="btn btn-primary" />
+    </div>
+</form>

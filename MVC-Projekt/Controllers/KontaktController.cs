@@ -27,41 +27,68 @@ namespace MVC_Projekt.Controllers
             return View(kontakty);
         }
 
-        public IActionResult Dodaj()
-        {
-            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa");
-            return View();
-        }
+        
         public IActionResult Dodano()
         {
             return View();
         }
+
+        public IActionResult DodajAdres()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Dodaj([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,Grupa.Nazwa,Adres.Ulica,Adres.Miasto,Adres.KodPocztowy,Adres.Kraj")] Kontakt kontakt)
+        public async Task<IActionResult> DodajAdres([Bind("Id,Ulica,Miasto,KodPocztowy,Kraj,KontaktId")] Adres adres)
         {
             if (ModelState.IsValid)
             {
-                if (kontakt.Grupa != null && !string.IsNullOrEmpty(kontakt.Grupa.Nazwa))
-                {
-                    var existingGroup = await _context.Grupy.FirstOrDefaultAsync(g => g.Nazwa == kontakt.Grupa.Nazwa);
-                    if (existingGroup == null)
-                    {
-                        kontakt.GrupaId = 0;
-                        _context.Grupy.Add(kontakt.Grupa);
-                        await _context.SaveChangesAsync();
-                    }
-                    else
-                    {
-                        kontakt.GrupaId = existingGroup.Id;
-                    }
-                }
+                _context.Adresy.Add(adres);
+                await _context.SaveChangesAsync();
+                TempData["AdresId"] = adres.Id; // Zapamiętaj ID dodanego adresu w TempData
+                return RedirectToAction(nameof(DodajGrupe));
+            }
 
-                if (kontakt.Adres != null && !string.IsNullOrEmpty(kontakt.Adres.Ulica) && !string.IsNullOrEmpty(kontakt.Adres.Miasto) && !string.IsNullOrEmpty(kontakt.Adres.KodPocztowy) && !string.IsNullOrEmpty(kontakt.Adres.Kraj))
-                {
-                    _context.Adresy.Add(kontakt.Adres);
-                    await _context.SaveChangesAsync();
-                }
+            return View(adres);
+        }
+
+        public IActionResult DodajGrupe()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DodajGrupe([Bind("Id,Nazwa")] Grupa grupa)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Grupy.Add(grupa);
+                await _context.SaveChangesAsync();
+                TempData["GrupaId"] = grupa.Id; // Zapamiętaj ID dodanej grupy w TempData
+                return RedirectToAction(nameof(DodajKontakt));
+            }
+
+            return View(grupa);
+        }
+
+        public IActionResult DodajKontakt()
+        {
+            ViewBag.AdresId = (int)TempData["AdresId"];
+            ViewBag.GrupaId = (int)TempData["GrupaId"];
+
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DodajKontakt([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId,AdresId")] Kontakt kontakt)
+        {
+            if (ModelState.IsValid)
+            {
+                kontakt.GrupaId = ViewBag.GrupaId;
+                kontakt.AdresId = ViewBag.AdresId;
 
                 _context.Add(kontakt);
                 await _context.SaveChangesAsync();

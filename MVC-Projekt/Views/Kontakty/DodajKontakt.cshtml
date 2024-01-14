@@ -1,8 +1,9 @@
-﻿@model MVC_Projekt.Models.Kontakt
+﻿
+@model MVC_Projekt.Models.Kontakt
 
-<h2>Dodaj</h2>
+<h2>Dodaj Kontakt</h2>
 
-<form asp-action="Dodaj" method="post">
+<form asp-action="DodajKontakt" method="post">
     <div class="form-group">
         <label asp-for="Imie"></label>
         <input asp-for="Imie" class="form-control" />
@@ -31,31 +32,11 @@
     </div>
 
     <div class="form-group">
-        <label asp-for="Grupa.Nazwa">Nazwa Grupy</label>
-        <input asp-for="Grupa.Nazwa" class="form-control" />
+        <input type="hidden" asp-for="GrupaId" value="@ViewBag.GrupaId" />
+        <input type="hidden" asp-for="AdresId" value="@ViewBag.AdresId" />
     </div>
 
     <div class="form-group">
-        <label asp-for="Adres.Ulica">Ulica</label>
-        <input asp-for="Adres.Ulica" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Adres.Miasto">Miasto</label>
-        <input asp-for="Adres.Miasto" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Adres.KodPocztowy">Kod Pocztowy</label>
-        <input asp-for="Adres.KodPocztowy" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <label asp-for="Adres.Kraj">Kraj</label>
-        <input asp-for="Adres.Kraj" class="form-control" />
-    </div>
-
-    <div class="form-group">
-        <input type="submit" value="Dodaj" class="btn btn-primary" />
+        <input type="submit" value="Dodaj Kontakt" class="btn btn-primary" />
     </div>
 </form>

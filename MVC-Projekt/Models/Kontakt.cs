@@ -1,8 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
-using System.ComponentModel.DataAnnotations;
+﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Text.RegularExpressions;
 
 namespace MVC_Projekt.Models
 {
@@ -27,6 +24,10 @@ namespace MVC_Projekt.Models
         [ForeignKey("GrupaId")]
         public Grupa Grupa { get; set; }
 
+        // Klucz obcy do Adres
+        public int? AdresId { get; set; }
+
+        [ForeignKey("AdresId")]
         public Adres Adres { get; set; }
     }
 }
