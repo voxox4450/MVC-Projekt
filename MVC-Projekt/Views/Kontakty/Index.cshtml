@@ -1,40 +1,51 @@
 ﻿@model IEnumerable<MVC_Projekt.Models.Kontakt>
+
 @{
-    <h2>Kontakty</h2>
-
-    <p>
-        <a asp-action="DodajAdres">Dodaj nowy</a>
-    </p>
-
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Imię</th>
-                <th>Nazwisko</th>
-                <th>Numer Telefonu</th>
-                <th>Adres Email</th>
-                <th>Grupa</th>
-                <th>Adres</th>
-                <th>Akcje</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var item in Model)
-            {
-                <tr>
-                    <td>@item.Imie</td>
-                    <td>@item.Nazwisko</td>
-                    <td>@item.NumerTelefonu</td>
-                    <td>@item.AdresEmail</td>
-                    <td>@(item.Grupa != null ? item.Grupa.Nazwa : "")</td>
-                    <td>@(item.Adres != null ? $"{item.Adres.Ulica}, {item.Adres.Miasto}" : "")</td>
-                    <td>
-                        <a asp-action="Details" asp-route-id="@item.Id">Lista</a> |
-                        <a asp-action="Edit" asp-route-id="@item.Id">Zmien</a> |
-                        <a asp-action="Delete" asp-route-id="@item.Id">Usun</a>
-                    </td>
-                </tr>
-            }
-        </tbody>
-    </table>
+    ViewData["Title"] = "Kontakty";
 }
+
+<h2>Kontakty</h2>
+
+<p>
+    <a asp-action="Dodaj">Dodaj nowy</a>
+</p>
+
+<div>
+    <p>
+        <a asp-action="DodajAdres" class="btn btn-primary">Dodaj Adres</a>
+        <a asp-action="DodajGrupe" class="btn btn-primary">Dodaj Grupę</a>
+        <a asp-action="DodajKontakt" class="btn btn-primary">Dodaj Kontakt</a>
+    </p>
+</div>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Imię</th>
+            <th>Nazwisko</th>
+            <th>Numer Telefonu</th>
+            <th>Adres Email</th>
+            <th>Grupa</th>
+            <th>Adres</th>
+            <th>Akcje</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>@item.Imie</td>
+                <td>@item.Nazwisko</td>
+                <td>@item.NumerTelefonu</td>
+                <td>@item.AdresEmail</td>
+                <td>@(item.Grupa != null ? item.Grupa.Nazwa : "")</td>
+                <td>@(item.Adres != null ? $"{item.Adres.Ulica}, {item.Adres.Miasto}, {item.Adres.Kraj}" : "")</td>
+                <td>
+                    <a asp-action="Details" asp-route-id="@item.Id">Lista</a> |
+                    <a asp-action="Zmien" asp-route-id="@item.Id">Zmien</a> |
+                    <a asp-action="Usun" asp-route-id="@item.Id">Usun</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
