@@ -34,7 +34,7 @@ namespace MVC_Projekt.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Dodaj([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId,Adres.Ulica,Adres.Miasto,Adres.KodPocztowy,Adres.Kraj,Grupa.Nazwa")] Kontakt kontakt)
+        public async Task<IActionResult> Dodaj([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,Grupa.Nazwa,Adres.Ulica,Adres.Miasto,Adres.KodPocztowy,Adres.Kraj")] Kontakt kontakt)
         {
             if (ModelState.IsValid)
             {
@@ -63,9 +63,9 @@ namespace MVC_Projekt.Controllers
                 return RedirectToAction(nameof(Index));
             }
 
-            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
             return View(kontakt);
         }
+
 
 
 
