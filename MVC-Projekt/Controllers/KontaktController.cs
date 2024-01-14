@@ -1,8 +1,10 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC_Projekt.Data;
 using MVC_Projekt.Models;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
@@ -24,25 +26,33 @@ namespace MVC_Projekt.Controllers
             return View(kontakty);
         }
 
-        public IActionResult Create()
+        public IActionResult Dodaj()
         {
+            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa");
             return View();
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId")] Kontakt kontakt)
+        public async Task<IActionResult> Dodaj([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId,Adres.Ulica,Adres.Miasto,Adres.KodPocztowy,Adres.Kraj")] Kontakt kontakt)
         {
             if (ModelState.IsValid)
             {
+                // Sprawdzanie czy adres jest pusty, jeśli tak, dodaj nowy obiekt Adres
+                if (string.IsNullOrEmpty(kontakt.Adres?.Ulica) && string.IsNullOrEmpty(kontakt.Adres?.Miasto) && string.IsNullOrEmpty(kontakt.Adres?.KodPocztowy) && string.IsNullOrEmpty(kontakt.Adres?.Kraj))
+                {
+                    kontakt.Adres = null; // Jeśli wszystkie pola adresu są puste, ustaw adres na null
+                }
+
                 _context.Add(kontakt);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
             return View(kontakt);
         }
 
-        public async Task<IActionResult> Edit(int? id)
+        public async Task<IActionResult> Zmien(int? id)
         {
             if (id == null)
             {
@@ -54,12 +64,13 @@ namespace MVC_Projekt.Controllers
             {
                 return NotFound();
             }
+            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
             return View(kontakt);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId")] Kontakt kontakt)
+        public async Task<IActionResult> Zmien(int id, [Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,GrupaId,Adres.Ulica,Adres.Miasto,Adres.KodPocztowy,Adres.Kraj")] Kontakt kontakt)
         {
             if (id != kontakt.Id)
             {
@@ -68,6 +79,12 @@ namespace MVC_Projekt.Controllers
 
             if (ModelState.IsValid)
             {
+                // Sprawdzanie czy adres jest pusty, jeśli tak, ustaw adres na null
+                if (string.IsNullOrEmpty(kontakt.Adres?.Ulica) && string.IsNullOrEmpty(kontakt.Adres?.Miasto) && string.IsNullOrEmpty(kontakt.Adres?.KodPocztowy) && string.IsNullOrEmpty(kontakt.Adres?.Kraj))
+                {
+                    kontakt.Adres = null;
+                }
+
                 try
                 {
                     _context.Update(kontakt);
@@ -86,10 +103,11 @@ namespace MVC_Projekt.Controllers
                 }
                 return RedirectToAction(nameof(Index));
             }
+            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
             return View(kontakt);
         }
 
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Usun(int? id)
         {
             if (id == null)
             {
@@ -106,17 +124,17 @@ namespace MVC_Projekt.Controllers
             return View(kontakt);
         }
 
-        [HttpPost, ActionName("Delete")]
+        [HttpPost, ActionName("Usun")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
+        public async Task<IActionResult> PotwierdzUsun(int id)
         {
             var kontakt = await _context.Kontakty.FindAsync(id);
             if (kontakt != null)
             {
                 _context.Kontakty.Remove(kontakt);
+                await _context.SaveChangesAsync();
             }
 
-            await _context.SaveChangesAsync();
             return RedirectToAction(nameof(Index));
         }
 
@@ -125,14 +143,12 @@ namespace MVC_Projekt.Controllers
             return _context.Kontakty.Any(e => e.Id == id);
         }
 
-        // Dodaj nową akcję dla grup
         public async Task<IActionResult> Grupy()
         {
             var grupy = await _context.Grupy.ToListAsync();
             return View(grupy);
         }
 
-        // Dodaj nową akcję dla adresów
         public async Task<IActionResult> Adresy()
         {
             var adresy = await _context.Adresy.ToListAsync();
