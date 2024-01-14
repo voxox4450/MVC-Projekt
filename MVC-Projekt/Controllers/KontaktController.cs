@@ -46,16 +46,15 @@ namespace MVC_Projekt.Controllers
             {
                 _context.Adresy.Add(adres);
                 await _context.SaveChangesAsync();
-                TempData["AdresId"] = adres.Id; // Zapamiętaj ID dodanego adresu w TempData
+
+                // Zapamiętaj ID dodanego adresu w TempData
+                TempData["AdresId"] = adres.Id;
+
+                // Przekieruj do widoku dodawania grupy
                 return RedirectToAction(nameof(DodajGrupe));
             }
 
             return View(adres);
-        }
-
-        public IActionResult DodajGrupe()
-        {
-            return View();
         }
 
         [HttpPost]
@@ -66,7 +65,11 @@ namespace MVC_Projekt.Controllers
             {
                 _context.Grupy.Add(grupa);
                 await _context.SaveChangesAsync();
-                TempData["GrupaId"] = grupa.Id; // Zapamiętaj ID dodanej grupy w TempData
+
+                // Zapamiętaj ID dodanej grupy w TempData
+                TempData["GrupaId"] = grupa.Id;
+
+                // Przekieruj do widoku dodawania kontaktu
                 return RedirectToAction(nameof(DodajKontakt));
             }
 
@@ -75,8 +78,12 @@ namespace MVC_Projekt.Controllers
 
         public IActionResult DodajKontakt()
         {
+            // Pobierz zapamiętane ID adresu i grupy z TempData
             ViewBag.AdresId = (int)TempData["AdresId"];
             ViewBag.GrupaId = (int)TempData["GrupaId"];
+
+            // Zainicjuj listę dostępnych grup w widoku
+            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa");
 
             return View();
         }
@@ -92,8 +99,13 @@ namespace MVC_Projekt.Controllers
 
                 _context.Add(kontakt);
                 await _context.SaveChangesAsync();
+
+                // Przekieruj do widoku potwierdzenia
                 return RedirectToAction(nameof(Dodano));
             }
+
+            // Zainicjuj listę dostępnych grup w widoku
+            ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
 
             return View(kontakt);
         }
