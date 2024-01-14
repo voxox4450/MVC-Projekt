@@ -13,7 +13,7 @@ namespace MVC_Projekt.Controllers
 
         // Akcja przetwarzająca dane z formularza dodawania kontaktu
         [HttpPost]
-        public ActionResult Create(Contact contact)
+        public ActionResult Create(Kontakt contact)
         {
             // Tutaj możesz dodać kod obsługi dodawania kontaktu do bazy danych
             // np. używając Entity Framework
