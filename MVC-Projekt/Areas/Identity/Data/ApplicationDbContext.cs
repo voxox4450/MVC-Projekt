@@ -1,12 +1,11 @@
 ﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Identity;
-using MVC_Projekt.Areas.Identity.Data;
 using MVC_Projekt.Models;
 
 namespace MVC_Projekt.Data
 {
-    public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
+    public class ApplicationDbContext : IdentityDbContext<IdentityUser>
     {
         public DbSet<Adres> Adresy { get; set; }
         public DbSet<Grupa> Grupy { get; set; }
