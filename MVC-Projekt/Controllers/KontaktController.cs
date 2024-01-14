@@ -48,7 +48,8 @@ namespace MVC_Projekt.Controllers
             if (ModelState.IsValid)
             {
                 _context.Adresy.Add(adres);
-                await _context.SaveChangesAsync();    
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
             return View(adres);
@@ -62,6 +63,7 @@ namespace MVC_Projekt.Controllers
             {
                 _context.Grupy.Add(grupa);
                 await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
             }
 
             return View(grupa);
