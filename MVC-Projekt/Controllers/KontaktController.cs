@@ -49,7 +49,7 @@ namespace MVC_Projekt.Controllers
                 TempData["AdresId"] = adres.Id;
 
                 // Przekieruj do widoku dodawania grupy
-                return RedirectToAction(nameof(DodajGrupe));
+                return RedirectToAction(nameof(Index));
             }
 
             return View(adres);
