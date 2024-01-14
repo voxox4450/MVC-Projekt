@@ -38,26 +38,21 @@ namespace MVC_Projekt.Controllers
         {
             if (ModelState.IsValid)
             {
-                // Sprawdzenie czy wprowadzono własną nazwę grupy
                 if (!string.IsNullOrEmpty(kontakt.Grupa?.Nazwa))
                 {
-                    // Sprawdzanie czy taka grupa już istnieje
                     var existingGroup = await _context.Grupy.FirstOrDefaultAsync(g => g.Nazwa == kontakt.Grupa.Nazwa);
                     if (existingGroup == null)
                     {
-                        // Dodawanie nowej grupy
-                        kontakt.GrupaId = 0; // Ustawienie na zero, aby EF Core zrozumiał, że to jest nowa grupa
+                        kontakt.GrupaId = 0;
                         _context.Grupy.Add(kontakt.Grupa);
                         await _context.SaveChangesAsync();
                     }
                     else
                     {
-                        // Ustawienie istniejącej grupy
                         kontakt.GrupaId = existingGroup.Id;
                     }
                 }
 
-                // Sprawdzanie czy adres jest pusty, jeśli tak, ustaw adres na null
                 if (string.IsNullOrEmpty(kontakt.Adres?.Ulica) && string.IsNullOrEmpty(kontakt.Adres?.Miasto) && string.IsNullOrEmpty(kontakt.Adres?.KodPocztowy) && string.IsNullOrEmpty(kontakt.Adres?.Kraj))
                 {
                     kontakt.Adres = null;
@@ -71,6 +66,7 @@ namespace MVC_Projekt.Controllers
             ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa", kontakt.GrupaId);
             return View(kontakt);
         }
+
 
 
         [HttpPost]
