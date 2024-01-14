@@ -36,6 +36,11 @@ namespace MVC_Projekt.Controllers
             return View();
         }
 
+        public IActionResult DodajGrupe()
+        {
+            return View();
+        }
+
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DodajAdres([Bind("Id,Ulica,Miasto,KodPocztowy,Kraj")] Adres adres)

@@ -6,6 +6,5 @@
 
         public string Nazwa { get; set; }
 
-        public List<Kontakt> Kontakty { get; set; }
     }
 }
