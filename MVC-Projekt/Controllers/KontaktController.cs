@@ -26,10 +26,6 @@ namespace MVC_Projekt.Controllers
             return View(kontakty);
         }
 
-        public IActionResult Dodano()
-        {
-            return View();
-        }
 
         public IActionResult DodajAdres()
         {
@@ -91,7 +87,7 @@ namespace MVC_Projekt.Controllers
                 _context.Add(kontakt);
                 await _context.SaveChangesAsync();
 
-                return RedirectToAction(nameof(Dodano));
+                return RedirectToAction(nameof(Index));
             }
 
             // Jeśli ModelState.IsValid == false, ponownie pobierz dostępne adresy i grupy
