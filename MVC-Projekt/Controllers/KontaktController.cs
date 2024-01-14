@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using MVC_Projekt.Data;
 using MVC_Projekt.Models;
+using MVC_Projekt.Views.Kontakty;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -31,14 +32,17 @@ namespace MVC_Projekt.Controllers
             ViewBag.Grupy = new SelectList(_context.Grupy.ToList(), "Id", "Nazwa");
             return View();
         }
-
+        public IActionResult Dodano()
+        {
+            return View();
+        }
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Dodaj([Bind("Id,Imie,Nazwisko,NumerTelefonu,AdresEmail,InneInformacje,Grupa.Nazwa,Adres.Ulica,Adres.Miasto,Adres.KodPocztowy,Adres.Kraj")] Kontakt kontakt)
         {
             if (ModelState.IsValid)
             {
-                if (!string.IsNullOrEmpty(kontakt.Grupa?.Nazwa))
+                if (kontakt.Grupa != null && !string.IsNullOrEmpty(kontakt.Grupa.Nazwa))
                 {
                     var existingGroup = await _context.Grupy.FirstOrDefaultAsync(g => g.Nazwa == kontakt.Grupa.Nazwa);
                     if (existingGroup == null)
@@ -53,21 +57,19 @@ namespace MVC_Projekt.Controllers
                     }
                 }
 
-                if (string.IsNullOrEmpty(kontakt.Adres?.Ulica) && string.IsNullOrEmpty(kontakt.Adres?.Miasto) && string.IsNullOrEmpty(kontakt.Adres?.KodPocztowy) && string.IsNullOrEmpty(kontakt.Adres?.Kraj))
+                if (kontakt.Adres != null && !string.IsNullOrEmpty(kontakt.Adres.Ulica) && !string.IsNullOrEmpty(kontakt.Adres.Miasto) && !string.IsNullOrEmpty(kontakt.Adres.KodPocztowy) && !string.IsNullOrEmpty(kontakt.Adres.Kraj))
                 {
-                    kontakt.Adres = null;
+                    _context.Adresy.Add(kontakt.Adres);
+                    await _context.SaveChangesAsync();
                 }
 
                 _context.Add(kontakt);
                 await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                return RedirectToAction(nameof(Dodano));
             }
 
             return View(kontakt);
         }
-
-
-
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -80,7 +82,6 @@ namespace MVC_Projekt.Controllers
 
             if (ModelState.IsValid)
             {
-                // Sprawdzanie czy adres jest pusty, jeśli tak, ustaw adres na null
                 if (string.IsNullOrEmpty(kontakt.Adres?.Ulica) && string.IsNullOrEmpty(kontakt.Adres?.Miasto) && string.IsNullOrEmpty(kontakt.Adres?.KodPocztowy) && string.IsNullOrEmpty(kontakt.Adres?.Kraj))
                 {
                     kontakt.Adres = null;
@@ -116,6 +117,8 @@ namespace MVC_Projekt.Controllers
             }
 
             var kontakt = await _context.Kontakty
+                .Include(k => k.Grupa)
+                .Include(k => k.Adres)
                 .FirstOrDefaultAsync(m => m.Id == id);
             if (kontakt == null)
             {
@@ -129,7 +132,11 @@ namespace MVC_Projekt.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> PotwierdzUsun(int id)
         {
-            var kontakt = await _context.Kontakty.FindAsync(id);
+            var kontakt = await _context.Kontakty
+                .Include(k => k.Grupa)
+                .Include(k => k.Adres)
+                .FirstOrDefaultAsync(m => m.Id == id);
+
             if (kontakt != null)
             {
                 _context.Kontakty.Remove(kontakt);
