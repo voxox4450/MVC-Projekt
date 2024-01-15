@@ -8,6 +8,11 @@ Konfiguracja bazy danych:
 
 Utwórz bazę danych na swoim serwerze SQL.
 Skonfiguruj połączenie z bazą danych w pliku appsettings.json w projekcie ASP.NET Core. Znajdziesz tam sekcję ConnectionStrings do edycji.
+Migracje:
+
+Otwórz konsole pakietów projektu.
+Uruchom komendę migrations add InitialMigration, aby utworzyć migrację inicjalną.
+Następnie uruchom komendę  database update, aby zastosować migracje i utworzyć strukturę bazy danych.
 Uruchomienie projektu:
 
 Uruchom projekt w środowisku Visual Studio lub za pomocą terminala komendą dotnet run.
@@ -17,30 +22,20 @@ Otwarcie strony:
 Otwórz przeglądarkę i przejdź do adresu localhost:5000 (lub localhost:5001).
 Rejestracja:
 
-Zarejestruj nowe konto na stronie, aby uzyskać dostęp do pełnej funkcjonalności.
+Zarejestruj nowe konto na stronie, aby uzyskać dostęp do aplikacji.
 Konfiguracja:
-Po zalogowaniu się na konto administratora (domyślne konto: admin, hasło: admin), zyskujesz dodatkowe uprawnienia:
+Po zalogowaniu się na konto administratora (domyślne konto: administrator@admin.pl, hasło: test123@), zyskujesz dodatkowe uprawnienia.
+Dostępy:
+    Dla niezalogowanego użytkownika:
+        Logowanie
+        Rejestracja
 
-Możliwość zarządzania użytkownikami: zmiana uprawnień, usuwanie użytkowników.
-Edycja kursów użytkowników, usuwanie kursów.
-Dostęp do panelu administratora.
-Opis funkcji:
-Dla niezalogowanego użytkownika:
-Strona główna.
-Logowanie.
-Rejestracja.
-Przeglądanie listy kursów.
-Dla zalogowanego użytkownika:
-Wyświetlanie dostępnych kursów.
-Ukończanie kursów.
-Ocena kursów w skali 1-5.
-Dodawanie, usuwanie, edytowanie własnych kursów.
-Zmiana hasła i nazwy użytkownika.
-Wylogowanie się.
-Wyświetlenie profilu z ukończonymi kursami.
-Dla administratora:
-Dodatkowe uprawnienia w panelu administratora.
-Zmiana uprawnień (ról) użytkowników.
-Usuwanie użytkowników (wraz z ich kursami i ocenami).
-Edycja kursów użytkowników.
-Usuwanie kursów użytkowników (wraz z ocenami).
+    Dla zalogowanego użytkownika:
+        Wyświetlanie listy kontaktów.
+        Wylogowywanie
+
+    Dla administratora:
+        Wyświetlanie zakładki kontakty.
+        Dodawanie grup.
+        Dodawanie adresów.
+        Dodawanie Kontaktów.
