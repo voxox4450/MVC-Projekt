@@ -19,12 +19,12 @@ Uruchom projekt w środowisku Visual Studio lub za pomocą terminala komendą do
 Upewnij się, że aplikacja jest dostępna pod adresem localhost:5182.
 Otwarcie strony:
 
-Otwórz przeglądarkę i przejdź do adresu localhost:5000 (lub localhost:5001).
+Otwórz przeglądarkę i przejdź do adresu localhost:5182.
 Rejestracja:
 
 Zarejestruj nowe konto na stronie, aby uzyskać dostęp do aplikacji.
 Konfiguracja:
-Po zalogowaniu się na konto administratora (domyślne konto: administrator@admin.pl, hasło: test123@), zyskujesz dodatkowe uprawnienia.
+Po zalogowaniu się na konto administratora (domyślne konto: Administrator@admin.pl, hasło: Test123@), zyskujesz dodatkowe uprawnienia.
 Dostępy:
 
 
