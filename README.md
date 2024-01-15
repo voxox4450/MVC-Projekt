@@ -16,7 +16,7 @@ Następnie uruchom komendę  database update, aby zastosować migracje i utworzy
 Uruchomienie projektu:
 
 Uruchom projekt w środowisku Visual Studio lub za pomocą terminala komendą dotnet run.
-Upewnij się, że aplikacja jest dostępna pod adresem localhost:5000 (lub localhost:5001 z protokołem HTTPS).
+Upewnij się, że aplikacja jest dostępna pod adresem localhost:5182.
 Otwarcie strony:
 
 Otwórz przeglądarkę i przejdź do adresu localhost:5000 (lub localhost:5001).
