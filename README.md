@@ -26,15 +26,17 @@ Zarejestruj nowe konto na stronie, aby uzyskać dostęp do aplikacji.
 Konfiguracja:
 Po zalogowaniu się na konto administratora (domyślne konto: administrator@admin.pl, hasło: test123@), zyskujesz dodatkowe uprawnienia.
 Dostępy:
-    Dla niezalogowanego użytkownika:
+
+
+Dla niezalogowanego użytkownika:
         Logowanie
         Rejestracja
 
-    Dla zalogowanego użytkownika:
+Dla zalogowanego użytkownika:
         Wyświetlanie listy kontaktów.
         Wylogowywanie
 
-    Dla administratora:
+Dla administratora:
         Wyświetlanie zakładki kontakty.
         Dodawanie grup.
         Dodawanie adresów.
